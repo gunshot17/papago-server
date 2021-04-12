@@ -1,0 +1,6 @@
+{
+    "MYSQL_HOST": "papago-database.czp9jlhs3fli.ap-northeast-2.rds.amazonaws.com",
+    "MYSQL_USER": "songil",
+    "DB_NAME": "Papago",
+    "DB_PASSWD": "tom1993"
+}
