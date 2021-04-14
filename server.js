@@ -1,9 +1,11 @@
 const express = require("express");
 const dotenv = require("dotenv");
-dotenv.config({ path: "./config/config.env" });
+
 const path = require("path");
 
 const users = require("./route/users");
+
+dotenv.config({ path: "./config/config.env" });
 
 const app = express();
 
@@ -13,7 +15,4 @@ app.use("/api/v1/users", users);
 
 const PORT = process.env.PORT;
 
-app.listen(
-    PORT,
-    console.log(`Server running `)
-);
+app.listen(PORT, console.log(`Server running`));
