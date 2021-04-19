@@ -26,7 +26,7 @@ const auth = async (req, res, next) => {
         "select n.id, n.email, n.created_at, t.token \
   from naver as n \
   join naver_token as t \
-  on s.id = t.user_id \
+  on n.id = t.user_id \
   where t.user_id = ? and t.token = ?;";
 
     let data = [user_id, token];
