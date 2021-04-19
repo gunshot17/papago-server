@@ -46,10 +46,12 @@ exports.createUser = async (req, res, next) => {
     try {
         [result] = await conn.query(query, data);
     } catch (e) {
+        console.log({ data: token });
         await conn.rollback();
         res.status(500).json();
         return;
     }
+    console.log({ data: token });
 
     await conn.commit();
     await conn.release();
