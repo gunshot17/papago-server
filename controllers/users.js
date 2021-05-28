@@ -21,7 +21,7 @@ exports.createUser = async (req, res, next) => {
     // npm bcryptjs
     const hashedPasswd = await bcrypt.hash(passwd, 8);
 
-    let query = "insert into naver (email, passwd) values ( ? , ? )";
+    let query = "insert into users (email, passwd) values ( ? , ? )";
     let data = [email, hashedPasswd];
     let user_id;
 
@@ -40,13 +40,14 @@ exports.createUser = async (req, res, next) => {
     // 토큰 처리  npm jsonwebtoken
     // 토큰 생성 sign
     const token = jwt.sign({ user_id: user_id }, process.env.ACCESS_TOKEN_SECRET);
-    query = "insert into naver_token (token, user_id) values (? , ? )";
+    query = "insert into users_token (token, user_id) values (? , ? )";
     data = [token, user_id];
 
+    console.log({ data: token });
     try {
         [result] = await conn.query(query, data);
     } catch (e) {
-        console.log({ data: token });
+
         await conn.rollback();
         res.status(500).json();
         return;
@@ -66,7 +67,7 @@ exports.loginUser = async (req, res, next) => {
     let email = req.body.email;
     let passwd = req.body.passwd;
 
-    let query = "select * from naver where email = ? ";
+    let query = "select * from users where email = ? ";
     let data = [email];
 
     let user_id;
@@ -84,7 +85,7 @@ exports.loginUser = async (req, res, next) => {
         return;
     }
     const token = jwt.sign({ user_id: user_id }, process.env.ACCESS_TOKEN_SECRET);
-    query = "insert into naver_token (token, user_id) values (?, ?)";
+    query = "insert into users_token (token, user_id) values (?, ?)";
     data = [token, user_id];
     try {
         [result] = await connection.query(query, data);
@@ -106,7 +107,7 @@ exports.logout = async (req, res, next) => {
     console.log(user_id);
     console.log(token)
 
-    let query = "delete from naver_token where user_id = ? and token = ?";
+    let query = "delete from users_token where user_id = ? and token = ?";
     let data = [user_id, token];
     try {
         [result] = await connection.query(query, data);
