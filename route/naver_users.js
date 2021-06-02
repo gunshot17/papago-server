@@ -4,7 +4,7 @@ const {
     loginUser,
     logout
 
-} = require("../controllers/users");
+} = require("../controllers/naver_users");
 
 const router = express.Router();
 

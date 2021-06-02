@@ -4,7 +4,7 @@ const connection = require("../db/mysql_connection");
 
 // @desc    회원가입
 // @route   POST    /api/v1/naver_users
-// @parameters  id,nickname,email
+// @parameters  id,nickname,email,username
 // @response success
 
 exports.createUser = async (req, res, next) => {
