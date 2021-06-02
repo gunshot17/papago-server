@@ -7,7 +7,7 @@ const connection = require("../db/mysql_connection");
 // @parameters  id,nickname,email,username
 // @response success
 
-exports.createUser = async (req, res, next) => {
+exports.createNaverUser = async (req, res, next) => {
     let email = req.body.email;
     let nickname = req.body.nickname;
     let id = req.body.id;
