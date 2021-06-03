@@ -4,14 +4,14 @@ const connection = require("../db/mysql_connection");
 
 // @desc    회원가입
 // @route   POST    /api/v1/naver_users
-// @parameters  id,nickname,email,username
+// @parameters  id,nickname,email
 // @response success
 
 exports.createNaverUser = async (req, res, next) => {
     let email = req.body.email;
     let nickname = req.body.nickname;
     let id = req.body.id;
-    let username = req.body.username;
+
 
 
     // npm validator
@@ -22,8 +22,8 @@ exports.createNaverUser = async (req, res, next) => {
 
 
 
-    let query = "insert into users(id, username, email, nickname) values ( ? , ? ,? ,? )";
-    let data = [id, username, email, nickname];
+    let query = "insert into naver_info (id , sns_id, sns_name) values ( ? , ? ,? )";
+    let data = [id, email, nickname];
     let user_id;
 
     const conn = await connection.getConnection();
