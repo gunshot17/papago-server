@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-    createNaverUser,
+    createNaverUser
 
 
 } = require("../controllers/naver_users");
