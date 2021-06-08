@@ -21,7 +21,7 @@ exports.createUser = async (req, res, next) => {
     // npm bcryptjs
     const hashedPasswd = await bcrypt.hash(passwd, 8);
 
-    let query = "insert into users (email, passwd) values ( ? , ? )";
+    let query = "insert into users (email, password) values ( ? , ? )";
     let data = [email, hashedPasswd];
     let user_id;
 
