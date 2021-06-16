@@ -38,6 +38,12 @@ exports.createNaverUser = async (req, res, next) => {
         return;
     }
 
+    console.log({ data: data });
+
+    await conn.commit();
+    await conn.release();
+
+
     res.status(200).json({ success: true });
 
 };
