@@ -90,8 +90,10 @@ exports.loginUser = async (req, res, next) => {
     try {
         [result] = await connection.query(query, data);
         res.status(200).json({ success: true, token: token });
+        return;
     } catch (e) {
         res.status(500).json();
+        return;
     }
 };
 
