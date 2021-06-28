@@ -67,17 +67,27 @@ exports.loginUser = async (req, res, next) => {
     let email = req.body.email;
     let passwd = req.body.passwd;
 
+    if (!email || !passwd) {
+        res.status(400).json({ message: "둘다 적어야 됩니다." });
+        return;
+    }
+
     let query = "select * from users where email = ? ";
     let data = [email];
 
+
+
     let user_id;
     try {
+
         [rows] = await connection.query(query, data);
-        let hashedPasswd = rows[0].passwd;
+        let hashedPasswd = rows[0].password;
         user_id = rows[0].id;
+
+        console.log("hashedPasswd :" + hashedPasswd, "user_id :" + user_id);
         const isMatch = await bcrypt.compare(passwd, hashedPasswd);
         if (isMatch == false) {
-            res.status(401).json();
+            res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
             return;
         }
     } catch (e) {
@@ -85,15 +95,15 @@ exports.loginUser = async (req, res, next) => {
         return;
     }
     const token = jwt.sign({ user_id: user_id }, process.env.ACCESS_TOKEN_SECRET);
-    query = "insert into users_token (token, user_id) values (?, ?)";
+    query = "insert into users_token (token, user_id) values (?,?)";
     data = [token, user_id];
     try {
         [result] = await connection.query(query, data);
         res.status(200).json({ success: true, token: token });
-        return;
+
     } catch (e) {
         res.status(500).json();
-        return;
+
     }
 };
 
