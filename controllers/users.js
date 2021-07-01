@@ -84,7 +84,7 @@ exports.loginUser = async (req, res, next) => {
         let hashedPasswd = rows[0].password;
         user_id = rows[0].id;
 
-        console.log("hashedPasswd :" + hashedPasswd, "user_id :" + user_id);
+        console.log("hashedPasswd :" + hashedPasswd, "user_id :" + user_id, "passwd :" + passwd);
         const isMatch = await bcrypt.compare(passwd, hashedPasswd);
         if (isMatch == false) {
             res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
