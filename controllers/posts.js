@@ -2,17 +2,18 @@ const path = require("path");
 const connection = require("../db/mysql_connection");
 // @desc        내용을 업로드 하는 API
 // @route       POST /api/v1/posts
-// @request     post, user_id(auth)
+// @request     origintext, user_id(auth), translatedtext
 // @response    success
 exports.uploadPosts = async (req, res, next) => {
     let user_id = req.user.id;
-    let post = req.body.post;
+    let origintext = req.body.origintext;
+    let translatedtext = req.body.translatedtext;
 
 
     let query =
-        "insert into users_post (user_id, post) \
-                values (?,?)";
-    let data = [user_id, post];
+        "insert into users_post (user_id, origintext, translatedtext) \
+                values (?,?,?)";
+    let data = [user_id, origintext, translatedtext];
 
     try {
         [result] = await connection.query(query, data);
@@ -53,13 +54,14 @@ exports.getMyPosts = async (req, res, next) => {
 
 // @desc    포스팅 수정하기
 // @route   PUT /api/v1/posts/:post_id
-// @request user_id(auth), post
+// @request user_id(auth), origintext, translatedtext
 // @response  success
 
 exports.updatePost = async (req, res, next) => {
     let post_id = req.params.post_id;
     let user_id = req.user.id;
-    let post = req.body.post;
+    let origintext = req.body.origintext;
+    let translatedtext = req.body.translatedtext;
 
     // 이 사람의 포스팅을 변경하는것인지, 확인한다.
     let query = "select * from users_post where id = ? ";
@@ -79,8 +81,8 @@ exports.updatePost = async (req, res, next) => {
 
 
 
-    query = "update users_post set post =? where id = ? ";
-    data = [post, post_id];
+    query = "update users_post set translatedtext =? , origintext =? where id = ? ";
+    data = [translatedtext, post_id];
 
     try {
         [result] = await connection.query(query, data);
