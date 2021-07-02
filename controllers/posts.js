@@ -52,47 +52,47 @@ exports.getMyPosts = async (req, res, next) => {
     }
 };
 
-// @desc    포스팅 수정하기
-// @route   PUT /api/v1/posts/:post_id
-// @request user_id(auth), origintext, translatedtext
-// @response  success
+// // @desc    포스팅 수정하기
+// // @route   PUT /api/v1/posts/:post_id
+// // @request user_id(auth), origintext, translatedtext
+// // @response  success
 
-exports.updatePost = async (req, res, next) => {
-    let post_id = req.params.post_id;
-    let user_id = req.user.id;
-    let origintext = req.body.origintext;
-    let translatedtext = req.body.translatedtext;
+// exports.updatePost = async (req, res, next) => {
+//     let post_id = req.params.post_id;
+//     let user_id = req.user.id;
+//     let origintext = req.body.origintext;
+//     let translatedtext = req.body.translatedtext;
 
-    // 이 사람의 포스팅을 변경하는것인지, 확인한다.
-    let query = "select * from users_post where id = ? ";
-    let data = [post_id];
+//     // 이 사람의 포스팅을 변경하는것인지, 확인한다.
+//     let query = "select * from users_post where id = ? ";
+//     let data = [post_id];
 
-    try {
-        [rows] = await connection.query(query, data);
-        // 다른사람이 쓴 글을, 이 사람이 바꾸려고 하면, 401로 보낸다.
-        if (rows[0].user_id != user_id) {
-            req.status(401).json();
-            return;
-        }
-    } catch (e) {
-        res.status(500).json();
-        return;
-    }
+//     try {
+//         [rows] = await connection.query(query, data);
+//         // 다른사람이 쓴 글을, 이 사람이 바꾸려고 하면, 401로 보낸다.
+//         if (rows[0].user_id != user_id) {
+//             req.status(401).json();
+//             return;
+//         }
+//     } catch (e) {
+//         res.status(500).json();
+//         return;
+//     }
 
 
 
-    query = "update users_post set translatedtext =? , origintext =? where id = ? ";
-    data = [origintext, translatedtext, post_id];
+//     query = "update users_post set translatedtext =? , origintext =? where id = ? ";
+//     data = [origintext, translatedtext, post_id];
 
-    try {
-        [result] = await connection.query(query, data);
-        res.status(200).json({ success: true });
-        return;
-    } catch (e) {
-        res.status(500).json();
-        return;
-    }
-};
+//     try {
+//         [result] = await connection.query(query, data);
+//         res.status(200).json({ success: true });
+//         return;
+//     } catch (e) {
+//         res.status(500).json();
+//         return;
+//     }
+// };
 
 // @desc    내 포스팅 삭제하기 (1개)
 // @route   DELETE /api/v1/posts/:post_id
