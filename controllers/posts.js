@@ -82,7 +82,7 @@ exports.updatePost = async (req, res, next) => {
 
 
     query = "update users_post set translatedtext =? , origintext =? where id = ? ";
-    data = [translatedtext, post_id];
+    data = [origintext, translatedtext, post_id];
 
     try {
         [result] = await connection.query(query, data);
